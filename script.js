@@ -236,12 +236,14 @@ function placeMark(collPos, rowPos, turn, node) {
     node.classList.add(turn);
 }
 function toggleTurn() {
+    const turnDisplayer = document.getElementById('turn-displayer');
     if (turn === 'x') {
         turn = 'o';
     }
     else {
         turn = 'x';
     }
+    turnDisplayer.innerText = `${turn.toUpperCase()} turn`;
 }
 function startGame() {
     const addBoardClickListener = (i, j) => {

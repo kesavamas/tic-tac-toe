@@ -200,3 +200,8 @@ html {
 .line > * {
     box-sizing: border-box;
 }
+.turn{
+    color: rgb(231, 221, 221);
+    font-size: clamp(1.2rem,0.5rem + 2.5vw,1.5rem);
+    margin-bottom: 20px;
+}
