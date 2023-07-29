@@ -63,6 +63,7 @@ function addLine(track) {
     path.setAttribute('stroke', 'red');
     path.setAttribute('stroke-linecap', 'square');
     path.setAttribute('stroke-width', '3');
+    path.style.setProperty('--length',path.getTotalLength());
     svg.appendChild(path);
 }
 function getWinLine(track, collPos, rowPos) {

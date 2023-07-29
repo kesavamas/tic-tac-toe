@@ -169,8 +169,15 @@ html {
     pointer-events: none;
     overflow: visible;
 }
-.line > * {
-    box-sizing: border-box;
+.line > path {
+    stroke-dasharray: var(--length);
+    stroke-dashoffset: var(--length);
+    animation: dash 500ms linear 0s 1 normal forwards running;
+}
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 .turn{
     color: rgb(231, 221, 221);
