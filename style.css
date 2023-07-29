@@ -146,34 +146,6 @@ html {
     /* text-align: center; */
     /* vertical-align: center; */
 }
-.x::before ,.x::after{
-    position: absolute;
-    width: 80%;
-    height: 10%;
-    top: 50%;
-    left: 50%;
-    background-color: aqua;
-}
-.x::before{
-    content: '';
-    transform: translate(-50%,-50%) rotate(-45deg);
-}
-.x::after{
-    content: '';
-    transform: translate(-50%,-50%) rotate(45deg) ;
-}
-.o::before{
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 60%;
-    aspect-ratio: 1/1;
-    border-color: aquamarine;
-    border: solid 5px;
-    border-radius: 100%; 
-}
 .score{
     margin-top: 20px;
     display : grid;
@@ -204,4 +176,9 @@ html {
     color: rgb(231, 221, 221);
     font-size: clamp(1.2rem,0.5rem + 2.5vw,1.5rem);
     margin-bottom: 20px;
+}
+.board svg{
+    /* height: 100%; */
+    width: 70%;
+    aspect-ratio: 1/1;
 }

@@ -65,7 +65,7 @@ function addLine(track) {
     path.setAttribute('stroke-width', '3');
     svg.appendChild(path);
 }
-function getWinLine(track,collPos, rowPos) {
+function getWinLine(track, collPos, rowPos) {
     let minRow = Infinity;
     let maxRow = -Infinity;
     let minColl = Infinity;
@@ -215,7 +215,7 @@ function handlerPlaced(collPos, rowPos, turn) {
             }
         }
         if (isWin) {
-            addLine(getWinLine(track[winIndex], collPos,rowPos));
+            addLine(getWinLine(track[winIndex], collPos, rowPos));
             displayWin();
             console.log(player);
             player[turn].score += 1;
@@ -233,7 +233,19 @@ function handlerPlaced(collPos, rowPos, turn) {
 }
 function placeMark(collPos, rowPos, turn, node) {
     markedBoard[collPos][rowPos] = turn;
-    node.classList.add(turn);
+    const markWrapper = board[collPos][rowPos];
+    if (turn === 'o') {
+        markWrapper.innerHTML = `
+        <svg  xmlns="http://www.w3.org/200.svg" preserveAspectRatio="none" viewbox="0 0 50 50">
+           <circle cx="50%" cy="50%" r="20" stroke="#00FFFF" stroke-width="5" fill="transparent"  /> 
+        </svg>`;
+    }
+    if(turn === 'x'){
+        markWrapper.innerHTML = `
+        <svg xmln"http://www.w3.org/2000/svg" viewbox="0 0 100 100" preserveAspectRatio="none">
+          <path stroke="#00FFFF" d="M 20 20 L 80 80 M 80 20 20 80" stroke-width="13"/>
+       </svg>`
+    }
 }
 function toggleTurn() {
     const turnDisplayer = document.getElementById('turn-displayer');
