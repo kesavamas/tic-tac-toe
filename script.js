@@ -3,6 +3,8 @@ const menu = document.getElementById('menu');
 const markedBoard = [];
 const board = [];
 let boardLeft = 0;
+//for removing all click listener
+const boardClickController = new AbortController();
 const boardWrapper = document.getElementById('board');
 let turn = 'x';
 const player = {
@@ -135,6 +137,9 @@ function toSVGPoint(svg, x, y) {
     const point = new DOMPoint(x, y);
     return point.matrixTransform(svg.getScreenCTM().inverse());
 }
+function removeBoardClickListener(){
+    boardClickController.abort();
+}
 function handlerPlaced(collPos, rowPos, turn) {
     let isWin = false;
     const track = [
@@ -221,8 +226,7 @@ function handlerPlaced(collPos, rowPos, turn) {
             player[turn].score += 1;
             player[turn].nodeDisplayer.innerText = player[turn].score;
             //remove all click event listener from child
-            const clonedBoard = boardWrapper.cloneNode(true);
-            boardWrapper.replaceWith(clonedBoard);
+            removeBoardClickListener();
             return;
         }
 
@@ -295,15 +299,11 @@ function toggleTurn() {
     turnDisplayer.innerText = `${turn.toUpperCase()} turn`;
 }
 function startGame() {
-    const addBoardClickListener = (i, j) => {
-        const clickHandler = () => {
-            placeMark(i, j, turn, board[i][j]);
-            handlerPlaced(i, j, turn);
-            toggleTurn();
-        }
-
-        board[i][j].addEventListener('click', clickHandler, { once: true });
-    };
+    const clickHandler = (i,j) => {
+        placeMark(i, j, turn, board[i][j]);
+        handlerPlaced(i, j, turn);
+        toggleTurn();
+    }
     //create 3 * 3 board
     for (let i = 0; i < 3; i++) {
         const coll = document.createElement('div');
@@ -315,7 +315,10 @@ function startGame() {
             const node = document.createElement('div');
             coll.appendChild(node);
             board[i].push(node);
-            addBoardClickListener(i, j);
+            node.addEventListener('click', () => clickHandler(i,j),{
+                once: true, 
+                signal: boardClickController.signal
+            });
         };
         boardWrapper.appendChild(coll);
     };
