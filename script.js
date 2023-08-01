@@ -59,7 +59,6 @@ function addLine(track) {
         svgPoint = toSVGPoint(svg, rect2.left, rect2.bottom);
     }
     path.setAttribute('d', `M${svgPoint.x} ${svgPoint.y} L${svgPoint2.x} ${svgPoint2.y}`);
-    console.log(path);
     path.setAttribute('stroke', 'red');
     path.setAttribute('stroke-linecap', 'square');
     path.setAttribute('stroke-width', '3');
@@ -232,20 +231,57 @@ function handlerPlaced(collPos, rowPos, turn) {
         displayTie();
     }
 }
-function placeMark(collPos, rowPos, turn, node) {
+function setAttributes(element,attributes,ns = null){
+    Object.keys(attributes).map((key) => element.setAttributeNS(ns,key,attributes[key]));
+}
+function createOMark(){
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns,'svg');
+    setAttributes(svg,{
+        preserveAspectRatio: 'none',
+        viewBox: '0 0 50 50'
+    });
+    const radius = 15;
+    const circle = document.createElementNS(ns,'circle');
+    setAttributes(circle,{
+        cx: '25',
+        cy: '25',
+        r: radius,
+        stroke: '#00FFFF',
+        'stroke-width': "3px",
+        fill: 'transparent',
+    });
+    circle.style.setProperty('--length',2 * Math.PI * 20);
+    svg.appendChild(circle);
+    return svg;
+}
+function createXMark(){
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns,'svg');
+    setAttributes(svg,{
+        preserveAspectRatio: 'none',
+        viewBox: '0 0 100 100'
+    });
+    const path = document.createElementNS(ns,'path');
+    svg.appendChild(path);
+    setAttributes(path,{
+        vectorEffect:"non-scaling-stroke",
+        stroke: '#00FFFF',
+        'stroke-width': "5px",
+        fill: 'transparent',
+        d: "M 20 20 L 80 80 M 80 20 L 20 80"
+    });
+    path.style.setProperty('--length',path.getTotalLength());
+    return svg;
+}
+function placeMark(collPos, rowPos, turn) {
     markedBoard[collPos][rowPos] = turn;
     const markWrapper = board[collPos][rowPos];
     if (turn === 'o') {
-        markWrapper.innerHTML = `
-        <svg  xmlns="http://www.w3.org/200.svg" preserveAspectRatio="none" viewbox="0 0 50 50">
-           <circle cx="50%" cy="50%" r="20" stroke="#00FFFF" stroke-width="5" fill="transparent"  /> 
-        </svg>`;
+        markWrapper.appendChild(createOMark());
     }
     if(turn === 'x'){
-        markWrapper.innerHTML = `
-        <svg xmln"http://www.w3.org/2000/svg" viewbox="0 0 100 100" preserveAspectRatio="none">
-          <path stroke="#00FFFF" d="M 20 20 L 80 80 M 80 20 20 80" stroke-width="13"/>
-       </svg>`
+       markWrapper.appendChild(createXMark());
     }
 }
 function toggleTurn() {
@@ -265,6 +301,7 @@ function startGame() {
             handlerPlaced(i, j, turn);
             toggleTurn();
         }
+
         board[i][j].addEventListener('click', clickHandler, { once: true });
     };
     //create 3 * 3 board
