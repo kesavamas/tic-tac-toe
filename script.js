@@ -30,7 +30,19 @@ function isIndexValid(i, j) {
     const isValid = typeof markedBoard[i] !== 'undefined' && typeof markedBoard[i][j] !== 'undefined';
     return isValid;
 }
-function displayWin() { }
+function displayWin(turn) { 
+    const winPage = document.getElementById('win-page');
+    const markDisplayer = document.getElementById('winner-mark');
+    const resultText = document.getElementById('result-text');
+    if(turn == 'o'){
+        markDisplayer.appendChild(createOMark());  
+    }
+    else if(turn === 'x'){
+        markDisplayer.appendChild(createXMark());  
+    }
+    resultText.innerText = 'Win';
+    winPage.classList.remove('hide');
+}
 function displayTie() { }
 function addLine(track) {
     const svg = document.getElementById('line');
@@ -221,7 +233,7 @@ function handlerPlaced(collPos, rowPos, turn) {
         }
         if (isWin) {
             addLine(getWinLine(track[winIndex], collPos, rowPos));
-            displayWin();
+            displayWin(turn);
             console.log(player);
             player[turn].score += 1;
             player[turn].nodeDisplayer.innerText = player[turn].score;

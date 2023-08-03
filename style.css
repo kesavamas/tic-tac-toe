@@ -7,9 +7,6 @@ body {
 
 }
 
-.hide {
-    display: none;
-}
 
 html {
     height: 100%;
@@ -81,7 +78,7 @@ html {
 
 .player-data>button:hover>div {
     transform: scale(1.4);
-
+    
 }
 
 .player-data>button:hover {
@@ -195,3 +192,66 @@ html {
     animation: dash 400ms linear 0s 1 normal forwards running;
 }
 
+#win-page{
+    pointer-events: none;
+    display: grid;
+    max-width: 100%;
+    /*the 30% is for spacing for first item*/
+    grid-template-rows: 30% 5px max-content auto;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(42, 39, 35);
+    z-index: 9999;
+    transition: opacity 1.5s linear 700ms;
+    opacity: 100%;
+}
+#win-page.hide{
+    opacity: 0%;
+}
+#winner-mark{
+    width: min(15%,115px);
+    box-sizing: border-box;
+    justify-self: center;
+    align-self: end;
+    aspect-ratio: 1/1;
+}
+.horizontal-line{
+    width: min(30%,150px);
+    height: 100%;
+    justify-self: center;
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    align-self: center;
+}
+#result-text{
+    color: aliceblue;
+    justify-self: center;
+    padding-top: 10px;
+    font-size: 3rem;
+}
+.home-restart-btn-wrapper{
+    padding-bottom: 5vh;
+    display: flex;
+    width: min(50%,300px);
+    box-sizing: border-box;
+    justify-content: space-between;
+    justify-self: center;
+    align-self: end;
+    padding-bottom: 10vh;
+}
+.home-restart-btn-wrapper button{
+    width: clamp(3rem,1rem + 12vw , 4rem);
+    padding: 5px 10px;
+    border: solid black;
+    background-color: #0D1117;
+    box-sizing: border-box;/
+}
+.home-restart-btn-wrapper svg{
+    color: white;
+    height: 95%;
+    width: 100%;
+}
+.hide {
+    display: none;
+}
