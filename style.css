@@ -210,10 +210,14 @@ html {
     opacity: 0%;
 }
 #winner-mark{
-    width: min(15%,115px);
+    display: flex;
+    width: min(20%,84px);
     box-sizing: border-box;
     justify-self: center;
     align-self: end;
+    justify-content: center;
+}
+#winner-mark svg{
     aspect-ratio: 1/1;
 }
 .horizontal-line{

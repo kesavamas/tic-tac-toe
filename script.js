@@ -43,7 +43,15 @@ function displayWin(turn) {
     resultText.innerText = 'Win';
     winPage.classList.remove('hide');
 }
-function displayTie() { }
+function displayTie() { 
+    const winPage = document.getElementById('win-page');
+    const markDisplayer = document.getElementById('winner-mark');
+    const resultText = document.getElementById('result-text');
+    markDisplayer.appendChild(createXMark());
+    markDisplayer.appendChild(createOMark());
+    resultText.innerText = 'Tie';
+    winPage.classList.remove('hide');
+}
 function addLine(track) {
     const svg = document.getElementById('line');
     const lineType = track.lineType;
