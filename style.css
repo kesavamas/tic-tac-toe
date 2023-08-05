@@ -249,7 +249,7 @@ html {
     padding: 5px 10px;
     border: solid black;
     background-color: #0D1117;
-    box-sizing: border-box;/
+    box-sizing: border-box;
 }
 .home-restart-btn-wrapper svg{
     color: white;
@@ -258,4 +258,7 @@ html {
 }
 .hide {
     display: none;
+}
+.clickable-btn{
+    pointer-events: auto;
 }

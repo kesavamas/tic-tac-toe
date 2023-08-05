@@ -1,11 +1,13 @@
 const playerData = document.getElementById('player-data');
 const menu = document.getElementById('menu');
-const markedBoard = [];
-const board = [];
+let markedBoard = [];
+//for restarting game
+let defaultBoardNode;
+let currentBoardNode;
+let board = [];
 let boardLeft = 0;
 //for removing all click listener
-const boardClickController = new AbortController();
-const boardWrapper = document.getElementById('board');
+let boardClickController = new AbortController();
 let turn = 'x';
 const player = {
     x: {
@@ -42,6 +44,7 @@ function displayWin(turn) {
     }
     resultText.innerText = 'Win';
     winPage.classList.remove('hide');
+    console.log(JSON.stringify(winPage.getAttribute('className')));
 }
 function displayTie() { 
     const winPage = document.getElementById('win-page');
@@ -244,7 +247,6 @@ function handlerPlaced(collPos, rowPos, turn) {
             displayWin(turn);
             console.log(player);
             player[turn].score += 1;
-            player[turn].nodeDisplayer.innerText = player[turn].score;
             //remove all click event listener from child
             removeBoardClickListener();
             return;
@@ -257,6 +259,24 @@ function handlerPlaced(collPos, rowPos, turn) {
 }
 function setAttributes(element,attributes,ns = null){
     Object.keys(attributes).map((key) => element.setAttributeNS(ns,key,attributes[key]));
+}
+function setToDefault(){
+    const winPage = document.getElementById('win-page');
+    const transitionEndhandler = (evt) => {
+        if(winPage.classList.contains('hide')){
+            document.getElementById('winner-mark').innerHTML = '';
+        }
+        evt.target.removeEventListener('transitionend',transitionEndhandler);
+    }
+    winPage.addEventListener('transitionend',transitionEndhandler);
+    winPage.classList.add('hide');
+    board = [];
+    boardLeft = 0;
+    markedBoard = [];
+    const newGameNode = defaultBoardNode.cloneNode(true);
+    boardClickController = new AbortController();
+    currentBoardNode.parentElement.replaceChild(newGameNode,currentBoardNode);
+    currentBoardNode = newGameNode;
 }
 function createOMark(){
     const ns = 'http://www.w3.org/2000/svg';
@@ -319,13 +339,18 @@ function toggleTurn() {
     turnDisplayer.innerText = `${turn.toUpperCase()} turn`;
 }
 function startGame() {
+    const boardWrapper = document.getElementById('board');
+    player['x'].nodeDisplayer.innerText = player['x'].score;
+    player['o'].nodeDisplayer.innerText = player['o'].score;
     const clickHandler = (i,j) => {
+        console.log('run');
         placeMark(i, j, turn, board[i][j]);
         handlerPlaced(i, j, turn);
         toggleTurn();
     }
     //create 3 * 3 board
     for (let i = 0; i < 3; i++) {
+        console.log(i);
         const coll = document.createElement('div');
         markedBoard.push([]);
         board.push([]);
@@ -343,13 +368,21 @@ function startGame() {
         boardWrapper.appendChild(coll);
     };
 }
+function restartGame() {
+    setToDefault();
+    startGame();
+}
 function init({ player1, player2 }) {
+    const boardWrapper = document.getElementById('board-wrapper');
     const gamePlayer1Name = document.getElementById('player1-name');
     const gamePlayer2Name = document.getElementById('player2-name');
     gamePlayer1Name.innerText = `${player1}(x)`;
     gamePlayer2Name.innerText = `${player2}(o)`;
     player.x.name = player1;
     player.o.name = player2;
+    defaultBoardNode = boardWrapper.cloneNode(true);
+    currentBoardNode = boardWrapper;
+    document.getElementById('restart-btn').addEventListener('click',() => restartGame());
     startGame();
 }
 init({ player1: 'hello', player2: 'world' });
