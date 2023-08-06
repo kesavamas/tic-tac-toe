@@ -148,13 +148,17 @@ html {
     margin-top: 20px;
     display : grid;
     width: min(80%,314px);
-    color:wheat;
     justify-content: space-around;
     grid-template-columns: auto auto;
 }
-.score  div {
+
+.player1  >  div:nth-child(n) , .player2 > div:nth-child(n) {
     font-size: min(1rem + 2vw,1.5rem);
     text-align: center;
+    color: #ccdae3;
+}
+.player1 > div:nth-child(1):first-letter,.player2 > div:nth-child(1)::first-letter{
+    text-transform: capitalize;
 }
 .line{
     position:absolute;
