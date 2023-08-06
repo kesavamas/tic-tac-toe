@@ -368,6 +368,14 @@ function startGame() {
         boardWrapper.appendChild(coll);
     };
 }
+function setPageToHome(){
+    const game = document.getElementById('game');
+    //the menu is the home
+    const menu = document.getElementById('menu');
+    menu.classList.remove('hide');
+    game.classList.add('hide');
+    setToDefault();
+}
 function restartGame() {
     setToDefault();
     startGame();
@@ -383,6 +391,7 @@ function init({ player1, player2 }) {
     defaultBoardNode = boardWrapper.cloneNode(true);
     currentBoardNode = boardWrapper;
     document.getElementById('restart-btn').addEventListener('click',() => restartGame());
+    document.getElementById('home-btn').addEventListener('click',() => setPageToHome());
     startGame();
 }
 init({ player1: 'hello', player2: 'world' });
