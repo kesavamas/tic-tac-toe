@@ -1,5 +1,4 @@
 const playerData = document.getElementById('player-data');
-const menu = document.getElementById('menu');
 let markedBoard = [];
 //for restarting game
 let defaultBoardNode;
@@ -23,10 +22,13 @@ const player = {
 }
 
 playerData.addEventListener('submit', evt => {
+    const menu = document.getElementById('menu');
+    const game = document.getElementById('game');
     evt.preventDefault();
     const data = Object.fromEntries(new FormData(playerData));
-    startGame();
+    init(data);
     menu.classList.add('hide');
+    game.classList.remove('hide');
 });
 function isIndexValid(i, j) {
     const isValid = typeof markedBoard[i] !== 'undefined' && typeof markedBoard[i][j] !== 'undefined';
@@ -394,4 +396,3 @@ function init({ player1, player2 }) {
     document.getElementById('home-btn').addEventListener('click',() => setPageToHome());
     startGame();
 }
-init({ player1: 'hello', player2: 'world' });

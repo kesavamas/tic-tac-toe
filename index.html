@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div id="menu" class="menu hide">
+    <div id="menu" class="menu">
         <div class="title-wrapper">
             <h1>
                 Tic tac toe
@@ -21,8 +21,8 @@
         </div>
         <div class="form-wrapper">
             <form class="player-data" id="player-data">
-                <input name="player1" placeholder="Enter player 1"  type="text" />
-                <input name="player2" placeholder="Enter player 2" type="text"/>
+                <input required name="player1" placeholder="Enter player 1"  type="text" />
+                <input required name="player2" placeholder="Enter player 2" type="text"/>
                 <button type="submit">
                     <div>
                         START
@@ -31,7 +31,7 @@
             </form>
         </div>
     </div>
-    <div class="game" id="game">
+    <div class="game hide" id="game">
         <div id="win-page" class="hide">
             <div id="winner-mark"></div>
             <div class="horizontal-line"></div>
