@@ -3,6 +3,7 @@ let markedBoard = [];
 //for restarting game
 let defaultBoardNode;
 let currentBoardNode;
+let isMarkAnimationRun = false; 
 let board = [];
 let boardLeft = 0;
 //for removing all click listener
@@ -323,12 +324,19 @@ function createXMark(){
 function placeMark(collPos, rowPos, turn) {
     markedBoard[collPos][rowPos] = turn;
     const markWrapper = board[collPos][rowPos];
+    let mark; 
     if (turn === 'o') {
-        markWrapper.appendChild(createOMark());
+        mark = createOMark();
     }
     if(turn === 'x'){
-       markWrapper.appendChild(createXMark());
+        mark = createXMark();
     }
+    markWrapper.appendChild(mark);
+    //make board cant be clicked when mark animation run
+    isMarkAnimationRun = true;
+    mark.addEventListener('animationend',() => {
+        isMarkAnimationRun = false;
+    });
 }
 function toggleTurn() {
     const turnDisplayer = document.getElementById('turn-displayer');
@@ -345,10 +353,16 @@ function startGame() {
     player['x'].nodeDisplayer.innerText = player['x'].score;
     player['o'].nodeDisplayer.innerText = player['o'].score;
     const clickHandler = (i,j) => {
-        console.log('run');
-        placeMark(i, j, turn, board[i][j]);
-        handlerPlaced(i, j, turn);
-        toggleTurn();
+        return function handler(evt){
+          console.log('run');
+          if(isMarkAnimationRun){
+              return;
+          }
+          placeMark(i, j, turn, board[i][j]);
+          handlerPlaced(i, j, turn);
+          toggleTurn();
+          evt.target.removeEventListener('click',handler);
+        }
     }
     //create 3 * 3 board
     for (let i = 0; i < 3; i++) {
@@ -362,8 +376,7 @@ function startGame() {
             const node = document.createElement('div');
             coll.appendChild(node);
             board[i].push(node);
-            node.addEventListener('click', () => clickHandler(i,j),{
-                once: true, 
+            node.addEventListener('click', clickHandler(i,j),{
                 signal: boardClickController.signal
             });
         };
