@@ -384,6 +384,11 @@ function startGame() {
     };
 }
 function setPageToHome(){
+    //to avoid twice click when animation run  
+    const winPage = document.getElementById('win-page');
+    if(winPage.classList.contains('animated')){
+        return;
+    }
     const game = document.getElementById('game');
     //the menu is the home
     const menu = document.getElementById('menu');
@@ -392,6 +397,11 @@ function setPageToHome(){
     setToDefault();
 }
 function restartGame() {
+    //to avoid twice click when animation run  
+    const winPage = document.getElementById('win-page');
+    if(winPage.classList.contains('animated')){
+        return;
+    }
     setToDefault();
     startGame();
 }
@@ -399,6 +409,7 @@ function init({ player1, player2 }) {
     const boardWrapper = document.getElementById('board-wrapper');
     const gamePlayer1Name = document.getElementById('player1-name');
     const gamePlayer2Name = document.getElementById('player2-name');
+    const winPage = document.getElementById('win-page');
     gamePlayer1Name.innerText = `${player1}(x)`;
     gamePlayer2Name.innerText = `${player2}(o)`;
     player.x.name = player1;
@@ -407,5 +418,11 @@ function init({ player1, player2 }) {
     currentBoardNode = boardWrapper;
     document.getElementById('restart-btn').addEventListener('click',() => restartGame());
     document.getElementById('home-btn').addEventListener('click',() => setPageToHome());
+    winPage.addEventListener('transitionend',(evt) => {
+        evt.target.classList.remove('animated');
+    });
+    winPage.addEventListener('transitionrun',(evt) => {
+        evt.target.classList.add('animated');
+    });
     startGame();
 }
