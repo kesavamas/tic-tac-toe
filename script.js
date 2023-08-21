@@ -269,6 +269,7 @@ function setWinMarkToDefault(){
     document.getElementById('winner-mark').innerHTML = '';
 }
 function setToDefault(){
+    turn = 'x';
     const winPage = document.getElementById('win-page');
     winPage.classList.add('hide');
     board = [];
@@ -336,18 +337,21 @@ function placeMark(collPos, rowPos, turn) {
         isMarkAnimationRun = false;
     });
 }
-function toggleTurn() {
+function setTurn(currentTurn){
+    turn = currentTurn;
     const turnDisplayer = document.getElementById('turn-displayer');
-    if (turn === 'x') {
-        turn = 'o';
-    }
-    else {
-        turn = 'x';
-    }
     turnDisplayer.innerText = `${turn.toUpperCase()} turn`;
 }
+function toggleTurn() {
+    if (turn === 'x') {
+        setTurn('o');
+    }
+    else {
+        setTurn('x');
+    }
+}
 function startGame() {
-    // setWinpageToDefault();
+    setTurn('x');
     const boardWrapper = document.getElementById('board');
     player['x'].nodeDisplayer.innerText = player['x'].score;
     player['o'].nodeDisplayer.innerText = player['o'].score;
