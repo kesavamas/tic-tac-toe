@@ -247,6 +247,7 @@ function handlerPlaced(collPos, rowPos, turn) {
         }
         if (isWin) {
             addLine(getWinLine(track[winIndex], collPos, rowPos));
+            setWinMarkToDefault();
             displayWin(turn);
             console.log(player);
             player[turn].score += 1;
@@ -257,21 +258,18 @@ function handlerPlaced(collPos, rowPos, turn) {
 
     }
     if (boardLeft === 0) {
+        setWinMarkToDefault();
         displayTie();
     }
 }
 function setAttributes(element,attributes,ns = null){
     Object.keys(attributes).map((key) => element.setAttributeNS(ns,key,attributes[key]));
 }
+function setWinMarkToDefault(){
+    document.getElementById('winner-mark').innerHTML = '';
+}
 function setToDefault(){
     const winPage = document.getElementById('win-page');
-    const transitionEndhandler = (evt) => {
-        if(winPage.classList.contains('hide')){
-            document.getElementById('winner-mark').innerHTML = '';
-        }
-        evt.target.removeEventListener('transitionend',transitionEndhandler);
-    }
-    winPage.addEventListener('transitionend',transitionEndhandler);
     winPage.classList.add('hide');
     board = [];
     boardLeft = 0;
@@ -349,6 +347,7 @@ function toggleTurn() {
     turnDisplayer.innerText = `${turn.toUpperCase()} turn`;
 }
 function startGame() {
+    // setWinpageToDefault();
     const boardWrapper = document.getElementById('board');
     player['x'].nodeDisplayer.innerText = player['x'].score;
     player['o'].nodeDisplayer.innerText = player['o'].score;
